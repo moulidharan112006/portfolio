@@ -1,4 +1,4 @@
-# 💼 Mouli K - Portfolio Website
+# 💼 Moulidharan K - Portfolio Website
 
 Welcome to my personal portfolio website! This portfolio showcases my skills, projects, education, certifications, and achievements as an aspiring Software Developer.
 
