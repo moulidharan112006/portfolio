@@ -27,9 +27,10 @@
 
     <div id="main-content">
     <div class="bg-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
+        <div class="blob-wrapper blob-1-wrap"><div class="blob blob-1"></div></div>
+        <div class="blob-wrapper blob-2-wrap"><div class="blob blob-2"></div></div>
+        <div class="blob-wrapper blob-3-wrap"><div class="blob blob-3"></div></div>
+        <div class="grid-overlay"></div>
     </div>
 
     <nav>
@@ -56,21 +57,21 @@
         <!-- Hero Section -->
         <section class="hero" id="home">
             <div class="container hero-content">
-                <div class="badge-wrapper" style="margin-bottom: 2rem;">
+                <div class="badge-wrapper hero-fade-up" style="margin-bottom: 2rem;">
                     <span class="badge" style="display: inline-flex; align-items: center; gap: 0.5rem;">
                         <span class="pulse-dot"></span> Available for Hire
                     </span>
                 </div>
-                <h1 style="font-size: clamp(2.5rem, 8vw, 4.5rem);">Hi, I'm <span class="role">Moulidharan K</span><br>
+                <h1 class="hero-fade-up" style="font-size: clamp(2.5rem, 8vw, 4.5rem);">Hi, I'm <span class="role">Moulidharan K</span><br>
                 <span class="typing-container">
                     <span class="typing-text">Full Stack Developer</span><span class="typing-cursor">|</span>
                 </span>
                 </h1>
-                <p style="font-size: 1.25rem; margin-top: 1.5rem; color: var(--text-muted); max-width: 650px;">
+                <p class="hero-fade-up" style="font-size: 1.25rem; margin-top: 1.5rem; color: var(--text-muted); max-width: 650px;">
                     I build high-performance, beautiful web applications with modern tech stacks. 
                     Specializing in <span style="color: var(--primary); font-weight: 600;">React</span> and <span style="color: var(--secondary); font-weight: 600;">Django</span>.
                 </p>
-                <div class="hero-social-buttons">
+                <div class="hero-social-buttons hero-fade-up">
                     <a href="https://github.com/moulidharan112006" target="_blank" class="social-btn github-btn" data-tooltip="View GitHub">
                         <i data-lucide="github"></i><span class="fallback-icon">💻</span> <span class="btn-text">GitHub</span>
                     </a>
@@ -84,7 +85,7 @@
                         <i data-lucide="globe"></i><span class="fallback-icon">🌐</span> <span class="btn-text">Portfolio</span>
                     </a>
                 </div>
-                <div style="margin-top: 1.5rem;">
+                <div class="hero-fade-up" style="margin-top: 1.5rem;">
                     <a href="assets/MOULIDHARAN_K-23105031.pdf" download="MOULIDHARAN_K_Resume.pdf" class="btn btn-primary resume-btn">
                         <i data-lucide="download"></i> Download Resume
                     </a>
@@ -96,10 +97,50 @@
         <section class="about reveal" id="about">
             <div class="container">
                 <h2 class="section-title">About Me</h2>
-                <div class="glass-card">
-                    <p class="about-text">
-                        Aspiring Full Stack Developer with knowledge of React.js, Django, and PostgreSQL, passionate about developing scalable web applications and solving real-world problems. I enjoy the process of turning complex requirements into simple, elegant, and efficient code.
-                    </p>
+                <div class="about-content-grid">
+                    <div class="about-left-details">
+                        <div class="glass-card" style="height: 100%;">
+                            <p class="about-text">
+                                Aspiring Full Stack Developer with knowledge of React.js, Django, and PostgreSQL, passionate about developing scalable web applications and solving real-world problems. I enjoy the process of turning complex requirements into simple, elegant, and efficient code.
+                            </p>
+                            <div class="about-stats-mini">
+                                <div class="stat-item">
+                                    <span class="stat-label">Education</span>
+                                    <span class="stat-val">B.E. CSE (CGPA: 8.47)</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Focus</span>
+                                    <span class="stat-val">React.js & Django</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Location</span>
+                                    <span class="stat-val">Coimbatore, India</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-right-terminal">
+                        <div class="terminal-window glass-card">
+                            <div class="terminal-header">
+                                <div class="terminal-dots">
+                                    <span class="dot red"></span>
+                                    <span class="dot yellow"></span>
+                                    <span class="dot green"></span>
+                                </div>
+                                <div class="terminal-title">moulidharan_k ~ bash</div>
+                            </div>
+                            <div class="terminal-body" id="terminal-body">
+                                <div class="terminal-row">Welcome to Moulidharan K's interactive terminal!</div>
+                                <div class="terminal-row">Type <span class="term-highlight">help</span> to view available commands.</div>
+                                <div class="terminal-history" id="terminal-history"></div>
+                                <div class="terminal-prompt">
+                                    <span class="prompt-text">guest@mk:~$</span>
+                                    <input type="text" id="terminal-input" autocomplete="off" placeholder="">
+                                    <span class="prompt-cursor"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -108,9 +149,9 @@
         <section class="skills reveal" id="skills">
             <div class="container">
                 <h2 class="section-title">Skills & Expertise</h2>
-                <div class="skills-container">
+                <div class="skills-container grid-stagger">
                     <!-- Frontend -->
-                    <div class="skill-category glass-card">
+                    <div class="skill-category glass-card skill-category-frontend">
                         <h3><i data-lucide="layout"></i> Frontend</h3>
                         <div class="skill-items">
                             <div class="skill-tag">
@@ -128,7 +169,7 @@
                         </div>
                     </div>
                     <!-- Backend & DB -->
-                    <div class="skill-category glass-card">
+                    <div class="skill-category glass-card skill-category-backend">
                         <h3><i data-lucide="server"></i> Backend & DB</h3>
                         <div class="skill-items">
                             <div class="skill-tag">
@@ -146,7 +187,7 @@
                         </div>
                     </div>
                     <!-- Tools & Data -->
-                    <div class="skill-category glass-card">
+                    <div class="skill-category glass-card skill-category-tools">
                         <h3><i data-lucide="wrench"></i> Tools & Data</h3>
                         <div class="skill-items">
                             <div class="skill-tag">
@@ -171,15 +212,20 @@
         <section class="projects reveal" id="projects">
             <div class="container">
                 <h2 class="section-title">Selected Projects</h2>
-                <div class="projects-grid">
+                
+                <!-- Project Filters -->
+                <div class="project-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="web">Web</button>
+                    <button class="filter-btn" data-filter="react">React</button>
+                    <button class="filter-btn" data-filter="fullstack">Fullstack</button>
+                </div>
+
+                <div class="projects-grid grid-stagger">
                     <!-- Project 1 -->
-                    <article class="project-card glass-card">
+                    <article class="project-card glass-card" data-category="web fullstack">
                         <div class="project-image">
                             <img src="assets/projects/problem-solver.png" alt="Local Problem Solver Preview">
-                            <div class="project-overlay">
-                                <a href="#" class="btn btn-primary btn-sm"><i data-lucide="external-link"></i> Live Demo</a>
-                                <a href="#" class="btn btn-outline btn-sm" style="background: white; color: black; border: none;"><i data-lucide="github"></i> Code</a>
-                            </div>
                         </div>
                         <div class="project-info">
                             <h3>Local Problem Solver</h3>
@@ -187,13 +233,9 @@
                         </div>
                     </article>
                     <!-- Project 2 -->
-                    <article class="project-card glass-card">
+                    <article class="project-card glass-card" data-category="react fullstack">
                         <div class="project-image">
                             <img src="assets/projects/ecommerce.png" alt="E-Commerce Application Preview">
-                            <div class="project-overlay">
-                                <a href="#" class="btn btn-primary btn-sm"><i data-lucide="external-link"></i> Live Demo</a>
-                                <a href="#" class="btn btn-outline btn-sm" style="background: white; color: black; border: none;"><i data-lucide="github"></i> Code</a>
-                            </div>
                         </div>
                         <div class="project-info">
                             <h3>E-Commerce Application</h3>
@@ -201,12 +243,9 @@
                         </div>
                     </article>
                     <!-- Project 3 -->
-                    <article class="project-card glass-card">
+                    <article class="project-card glass-card" data-category="data">
                         <div class="project-image">
                             <img src="assets/projects/analysis.png" alt="Shopping Behavior Analysis Preview">
-                            <div class="project-overlay">
-                                <a href="#" class="btn btn-primary btn-sm"><i data-lucide="bar-chart"></i> View Study</a>
-                            </div>
                         </div>
                         <div class="project-info">
                             <h3>Shopping Behavior Analysis</h3>
@@ -221,7 +260,7 @@
         <section class="education reveal" id="education">
             <div class="container">
                 <h2 class="section-title">Education</h2>
-                <div class="education-timeline">
+                <div class="education-timeline grid-stagger">
                     <!-- Entry 1 -->
                     <div class="edu-card glass-card">
                         <div class="edu-icon">
@@ -261,7 +300,7 @@
         <section class="certifications reveal" id="certifications">
             <div class="container">
                 <h2 class="section-title">Certifications</h2>
-                <div class="cert-grid">
+                <div class="cert-grid grid-stagger">
                     <div class="cert-card glass-card">
                         <div class="cert-icon"><i data-lucide="award"></i></div>
                         <div class="cert-info">
@@ -294,7 +333,7 @@
         <section class="contact reveal" id="contact">
             <div class="container">
                 <h2 class="section-title">Let's Connect</h2>
-                <div class="contact-grid">
+                <div class="contact-grid grid-stagger">
                     <!-- Email Card -->
                     <a href="mailto:moulidharank11@gmail.com" class="contact-card glass-card" data-tooltip="Click to send email">
                         <div class="contact-card-icon">

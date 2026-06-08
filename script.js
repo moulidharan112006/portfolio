@@ -32,15 +32,15 @@ lucide.createIcons();
 
 // Background Blobs Parallax
 document.addEventListener('mousemove', (e) => {
-    const blobs = document.querySelectorAll('.blob');
+    const blobWrappers = document.querySelectorAll('.blob-wrapper');
     const x = e.clientX / window.innerWidth;
     const y = e.clientY / window.innerHeight;
     
-    blobs.forEach((blob, index) => {
-        const speed = (index + 1) * 20;
+    blobWrappers.forEach((wrapper, index) => {
+        const speed = (index + 1) * 35;
         const xOffset = (x - 0.5) * speed;
         const yOffset = (y - 0.5) * speed;
-        blob.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+        wrapper.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
     });
 });
 
@@ -215,4 +215,150 @@ if (contactForm) {
         }, 1500);
     });
 }
+
+// --- Live Terminal Interface ---
+const termInput = document.getElementById('terminal-input');
+const termHistory = document.getElementById('terminal-history');
+const termWindow = document.querySelector('.terminal-window');
+
+if (termInput && termHistory) {
+    // Keep focus inside terminal when clicking it
+    termWindow.addEventListener('click', () => {
+        termInput.focus();
+    });
+
+    termInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const command = termInput.value.trim().toLowerCase();
+            const promptText = 'guest@mk:~$';
+            
+            // Print command line
+            const cmdLine = document.createElement('div');
+            cmdLine.className = 'terminal-row';
+            cmdLine.innerHTML = `<span class="prompt-text">${promptText}</span> <span>${termInput.value}</span>`;
+            termHistory.appendChild(cmdLine);
+            
+            // Execute command
+            if (command) {
+                const response = executeCommand(command);
+                if (response !== '') {
+                    const respLine = document.createElement('div');
+                    respLine.className = 'terminal-row';
+                    respLine.innerHTML = response;
+                    termHistory.appendChild(respLine);
+                }
+            }
+            
+            // Reset input and scroll down
+            termInput.value = '';
+            const body = document.getElementById('terminal-body');
+            if (body) {
+                body.scrollTop = body.scrollHeight;
+            }
+        }
+    });
+
+    function executeCommand(cmd) {
+        switch (cmd) {
+            case 'help':
+                return `Available commands:<br>
+                  • <span class="term-highlight">about</span> - Detailed intro<br>
+                  • <span class="term-highlight">skills</span> - Full tech stack details<br>
+                  • <span class="term-highlight">projects</span> - View project tags & descriptions<br>
+                  • <span class="term-highlight">contact</span> - Social profile endpoints<br>
+                  • <span class="term-highlight">clear</span> - Clear command prompt buffer<br>
+                  • <span class="term-highlight">secret</span> - Run easter egg trigger`;
+            case 'about':
+                return `I am a Computer Science & Engineering student at Rathinam Technical Campus. Passionate about solving real-world challenges through full stack engineering. Active CGPA: 8.47.`;
+            case 'skills':
+                return `Frontend: HTML5, CSS3, JavaScript, React.js<br>
+                  Backend: Java, Django (Python)<br>
+                  Database: PostgreSQL, MySQL<br>
+                  Tools: Git/GitHub, Power BI, Excel`;
+            case 'projects':
+                return `1. Local Problem Solver (React + Django)<br>
+                  2. E-Commerce Electronic Store (React)<br>
+                  3. Customer Shopping Behavior Study (Power BI)`;
+            case 'contact':
+                return `Email: moulidharank11@gmail.com<br>
+                  GitHub: moulidharan112006<br>
+                  LinkedIn: Moulidharan K<br>
+                  WhatsApp: +91 87785 31662`;
+            case 'clear':
+                termHistory.innerHTML = '';
+                return '';
+            case 'secret':
+                return `✨ Initializing warp drive...<br>
+                  🚀 SUCCESS: You bypassed the portfolio grid matrix!<br>
+                  👾 Secret greeting: "Hello World! Have a great day!"`;
+            default:
+                return `bash: command not found: <span style="color: #ff5f56;">${cmd}</span>. Type <span class="term-highlight">help</span> for support.`;
+        }
+    }
+}
+
+// --- 3D Card Tilt & Spotlight Glow ---
+const projectCardsList = document.querySelectorAll('.project-card');
+projectCardsList.forEach(card => {
+    // Append shine element dynamically
+    let shine = card.querySelector('.project-shine');
+    if (!shine) {
+        shine = document.createElement('div');
+        shine.classList.add('project-shine');
+        card.appendChild(shine);
+    }
+    
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const maxTilt = 8; // Max rotation degrees
+        const rotateX = ((centerY - y) / centerY) * maxTilt;
+        const rotateY = ((x - centerX) / centerX) * maxTilt;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+        shine.style.background = `radial-gradient(circle 200px at ${x}px ${y}px, rgba(255, 255, 255, 0.08), transparent)`;
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        shine.style.background = 'transparent';
+    });
+});
+
+// --- Project Filtering with Transitions ---
+const filterBtns = document.querySelectorAll('.filter-btn');
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const filter = btn.getAttribute('data-filter');
+        
+        projectCardsList.forEach(card => {
+            const categoryAttr = card.getAttribute('data-category');
+            const cats = categoryAttr ? categoryAttr.split(' ') : [];
+            
+            if (filter === 'all' || cats.includes(filter)) {
+                card.style.display = 'block';
+                card.offsetHeight; // force browser reflow
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1) translateY(0)';
+            } else {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.85) translateY(20px)';
+                setTimeout(() => {
+                    if (card.style.opacity === '0') {
+                        card.style.display = 'none';
+                    }
+                }, 350);
+            }
+        });
+    });
+});
+
 
