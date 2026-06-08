@@ -30,36 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Initialize Lucide icons
 lucide.createIcons();
 
-// Custom Cursor with Magnetic Effect
-const cursor = document.querySelector('.custom-cursor');
-const cursorInner = document.createElement('div');
-cursorInner.className = 'cursor-inner';
-if (cursor) {
-    document.addEventListener('mousemove', (e) => {
-        const x = e.clientX;
-        const y = e.clientY;
-        
-        // Smooth cursor follow
-        cursor.animate({
-            left: `${x}px`,
-            top: `${y}px`
-        }, { duration: 500, fill: "forwards" });
-    });
-
-    document.querySelectorAll('a, button, .glass-card, .contact-card').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'scale(2.5)';
-            cursor.style.background = 'rgba(145, 94, 255, 0.2)';
-            cursor.style.border = '1px solid var(--primary)';
-        });
-        el.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'scale(1)';
-            cursor.style.background = 'var(--primary-glow)';
-            cursor.style.border = 'none';
-        });
-    });
-}
-
 // Background Blobs Parallax
 document.addEventListener('mousemove', (e) => {
     const blobs = document.querySelectorAll('.blob');
@@ -100,10 +70,6 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
-            // Animate progress bars if the entry is the skills section
-            if (entry.target.id === 'skills') {
-                animateSkills();
-            }
         }
     });
 }, observerOptions);
@@ -111,14 +77,6 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => {
     observer.observe(el);
 });
-
-function animateSkills() {
-    const skillBars = document.querySelectorAll('.progress-fill');
-    skillBars.forEach(bar => {
-        const targetWidth = bar.parentElement.previousElementSibling.lastElementChild.textContent;
-        bar.style.width = targetWidth;
-    });
-}
 
 // Typing Animation
 const typingElement = document.querySelector('.typing-text');

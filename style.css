@@ -13,33 +13,12 @@
     --text-main: #f3f3f3;
     --text-muted: #aaa6c3;
     --glass-blur: blur(16px);
-    --transition-base: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-base: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Custom Cursor Effects */
-.custom-cursor {
-    width: 20px;
-    height: 20px;
-    background: var(--primary-glow);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 10000;
-    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
-    mix-blend-mode: difference;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
 
-.scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 4px;
-    background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
-    z-index: 10001;
-    width: 0;
-    transition: width 0.1s ease;
-}
+
+
 
 * {
     margin: 0;
@@ -583,9 +562,9 @@ svg + .fallback-icon {
 }
 
 .glass-card:hover {
-    border-color: var(--primary-glow);
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 40px -15px var(--primary-glow);
+    border-color: rgba(145, 94, 255, 0.35);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 35px -15px rgba(145, 94, 255, 0.25);
 }
 
 /* About Section */
@@ -608,37 +587,55 @@ svg + .fallback-icon {
 }
 
 .skill-category h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     margin-bottom: 1.5rem;
     color: var(--primary);
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+}
+
+.skill-category h3 i, .skill-category h3 svg {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
 }
 
 .skill-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.75rem;
+    width: 100%;
 }
 
 .skill-tag {
-    background: var(--card-bg);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--card-border);
-    padding: 0.6rem 1.2rem;
+    padding: 0.6rem 1rem;
     border-radius: 0.75rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.9rem;
     font-weight: 500;
-    transition: var(--transition-base);
+    transition: background 0.25s ease-in-out, border-color 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
 
-.skill-tag i {
+.skill-tag i, .skill-tag svg {
+    width: 16px;
+    height: 16px;
     color: var(--secondary);
+    transition: transform 0.25s ease-in-out;
 }
 
 .skill-tag:hover {
-    background: var(--card-border);
+    background: rgba(0, 206, 168, 0.05);
     border-color: var(--secondary);
+    transform: translateY(-2px);
+}
+
+.skill-tag:hover i, .skill-tag:hover svg {
+    transform: scale(1.1);
 }
 
 /* Projects Section */
@@ -825,10 +822,10 @@ svg + .fallback-icon {
 }
 
 .contact-card:hover {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
-    border-color: var(--primary);
-    box-shadow: 0 20px 40px -10px var(--primary-glow);
-    transform: translateY(-10px) scale(1.02);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%);
+    border-color: rgba(145, 94, 255, 0.4);
+    box-shadow: 0 20px 35px -15px rgba(145, 94, 255, 0.25);
+    transform: translateY(-5px);
 }
 
 .contact-card-icon {
@@ -938,13 +935,68 @@ footer {
 /* Animations */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
+    transform: translateY(20px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Stagger delay for grids and timelines when parent is revealed */
+.reveal.active .glass-card, 
+.reveal.active .skill-category, 
+.reveal.active .project-card, 
+.reveal.active .edu-card, 
+.reveal.active .cert-card, 
+.reveal.active .contact-card {
+    animation: slideUpFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Base state for child cards to prevent flashing */
+.reveal .glass-card, 
+.reveal .skill-category, 
+.reveal .project-card, 
+.reveal .edu-card, 
+.reveal .cert-card, 
+.reveal .contact-card {
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+@keyframes slideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reveal.active .skills-container > :nth-child(1),
+.reveal.active .projects-grid > :nth-child(1),
+.reveal.active .education-timeline > :nth-child(1),
+.reveal.active .cert-grid > :nth-child(1),
+.reveal.active .contact-grid > :nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.reveal.active .skills-container > :nth-child(2),
+.reveal.active .projects-grid > :nth-child(2),
+.reveal.active .education-timeline > :nth-child(2),
+.reveal.active .cert-grid > :nth-child(2),
+.reveal.active .contact-grid > :nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.reveal.active .skills-container > :nth-child(3),
+.reveal.active .projects-grid > :nth-child(3),
+.reveal.active .cert-grid > :nth-child(3),
+.reveal.active .contact-grid > :nth-child(3) {
+    animation-delay: 0.3s;
 }
 
 /* Mobile Responsive */
@@ -974,9 +1026,7 @@ footer {
         font-size: 3rem;
     }
     
-    .nav-links {
-        display: none;
-    }
+
     
     .contact-container {
         grid-template-columns: 1fr;
@@ -1109,20 +1159,6 @@ body.loaded #main-content {
 
 /* --- Premium Enhancements --- */
 
-/* Custom Cursor */
-.custom-cursor {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--primary-glow);
-    pointer-events: none;
-    z-index: 10000;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, background 0.2s;
-    mix-blend-mode: screen;
-}
-
 /* Scroll Progress */
 .scroll-progress {
     position: fixed;
@@ -1132,6 +1168,7 @@ body.loaded #main-content {
     background: linear-gradient(to right, var(--primary), var(--secondary));
     width: 0%;
     z-index: 10001;
+    transition: width 0.1s ease;
 }
 
 /* Nav Additions */
@@ -1165,38 +1202,6 @@ body.loaded #main-content {
     -webkit-text-fill-color: transparent;
 }
 
-/* Skill Bars */
-.skill-bar {
-    width: 100%;
-    margin-bottom: 1.2rem;
-}
-.skill-info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-main);
-    font-weight: 500;
-}
-.progress-bg {
-    width: 100%;
-    height: 8px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 4px;
-    overflow: hidden;
-}
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    border-radius: 4px;
-    width: 0;
-    transition: width 1.5s cubic-bezier(0.1, 0.5, 0.1, 1);
-}
-.skill-items {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
 
 /* Project Overlay */
 .project-image {
@@ -1217,8 +1222,15 @@ body.loaded #main-content {
     justify-content: center;
     opacity: 0;
     backdrop-filter: blur(4px);
-    transition: opacity 0.3s ease;
+    transition: opacity 0.25s ease-in-out, backdrop-filter 0.25s ease-in-out;
+}
+.project-overlay .btn {
+    transform: translateY(15px);
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .project-card:hover .project-overlay {
     opacity: 1;
+}
+.project-card:hover .project-overlay .btn {
+    transform: translateY(0);
 }
